@@ -45,9 +45,9 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
     if 'MonthlyCharges' in input_data.columns: input_data['MonthlyCharges'] = monthly_charges
     if 'TotalCharges' in input_data.columns: input_data['TotalCharges'] = total_charges
     
-    # Scale Numeric Features
+    # Scale Numeric Features (FIXED: passing .values to bypass sklearn strict feature name validation)
     numeric_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
-    input_data[numeric_cols] = scaler.transform(input_data[numeric_cols])
+    input_data[numeric_cols] = scaler.transform(input_data[numeric_cols].values)
     
     # One-Hot Encoding Mappings
     contract_col = f"Contract_{contract}"
