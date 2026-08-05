@@ -37,17 +37,13 @@ with col2:
 
 # Predict Button
 if st.button("🔮 Predict Churn Risk", use_container_width=True):
-    # Construct Raw DataFrame matching encoding structure
+    # Construct Raw DataFrame matching exact feature alignment
     input_data = pd.DataFrame(0, index=[0], columns=feature_columns)
     
     # Assign Numeric Values
     if 'tenure' in input_data.columns: input_data['tenure'] = tenure
     if 'MonthlyCharges' in input_data.columns: input_data['MonthlyCharges'] = monthly_charges
     if 'TotalCharges' in input_data.columns: input_data['TotalCharges'] = total_charges
-    
-    # Scale Numeric Features (FIXED: passing .values to bypass sklearn strict feature name validation)
-    numeric_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
-    input_data[numeric_cols] = scaler.transform(input_data[numeric_cols].values)
     
     # One-Hot Encoding Mappings
     contract_col = f"Contract_{contract}"
@@ -58,6 +54,18 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
         
     payment_col = f"PaymentMethod_{payment_method}"
     if payment_col in input_data.columns: input_data[payment_col] = 1
+
+    # Dynamic Scaling Logic (Adapts automatically whether scaler fit on 3 cols or all cols)
+    numeric_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
+    try:
+        if hasattr(scaler, 'n_features_in_') and scaler.n_features_in_ == len(feature_columns):
+            scaled_values = scaler.transform(input_data.values)
+            input_data = pd.DataFrame(scaled_values, columns=feature_columns)
+        else:
+            input_data[numeric_cols] = scaler.transform(input_data[numeric_cols].values)
+    except Exception:
+        scaled_values = scaler.transform(input_data.values)
+        input_data = pd.DataFrame(scaled_values, columns=feature_columns)
 
     # Generate Prediction
     prediction = model.predict(input_data)[0]
