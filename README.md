@@ -1,5 +1,6 @@
 # Telco Customer Churn Prediction: Baseline vs. Ensemble Learning
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://neuro-five-telco-customer-churn-prediction-lbcwjbkckrgzeuobaxx.streamlit.app/)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)
 ![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
 ![XGBoost](https://img.shields.io/badge/XGBoost-2.0%2B-red?style=for-the-badge&logo=xgboost&logoColor=white)
@@ -12,7 +13,7 @@
 
 Customer churn prediction is a critical machine learning application across telecom, banking, and SaaS industries. This repository contains an end-to-end Machine Learning pipeline utilizing the **Telco Customer Churn dataset**. 
 
-The project evaluates predictive performance across linear baselines (**Logistic Regression**) and advanced Ensemble Learning methods (**Random Forest** & **XGBoost**). Special emphasis is placed on solving target class imbalance using **SMOTE** and **Cost-Sensitive Class Weighting**, demonstrating why standard Accuracy fails in high-stakes churn scenarios.
+The project evaluates predictive performance across linear baselines (**Logistic Regression**) and advanced Ensemble Learning methods (**Random Forest** & **XGBoost**). Special emphasis is placed on solving target class imbalance using **SMOTE** and **Cost-Sensitive Class Weighting**, culminating in a **fully deployed interactive web app** on Streamlit Cloud.
 
 ---
 
@@ -23,6 +24,7 @@ The project evaluates predictive performance across linear baselines (**Logistic
 * **Imbalance Mitigation:** Resolve class imbalance (73.46% vs 26.54%) to optimize sensitivity (Recall).
 * **Model Benchmarking:** Benchmark Baseline Logistic Regression against Bagging (Random Forest) and Boosting (XGBoost).
 * **Interpretability & Insights:** Extract feature importances to deliver actionable business retention strategies.
+* **Model Deployment:** Export trained artifacts and build an interactive web interface for real-time risk assessment.
 
 ---
 
@@ -98,6 +100,18 @@ Comparative feature analysis reveals distinct learning behaviors between model f
 
 ---
 
+## 🚀 Interactive Web Application & Deployment
+
+The optimal model (`Logistic Regression + SMOTE`) was packaged alongside its scaling parameters and feature alignment vectors into serialized joblib artifacts to power an interactive **Streamlit** web application.
+
+* **Live Application:** [Launch Telco Churn Predictor](https://neuro-five-telco-customer-churn-prediction-lbcwjbkckrgzeuobaxx.streamlit.app/)
+* **Features:**
+  * Real-time churn probability scoring based on custom user inputs.
+  * Automated feature encoding and feature alignment pipeline.
+  * Actionable risk mitigation indicators for retention teams.
+
+---
+
 ## Strategic Business Recommendations
 
 1. **Contract Strategy:** Offer targeted multi-month promotional discounts to transition high-risk **Month-to-month** customers to 1-Year or 2-Year contracts.
@@ -111,6 +125,10 @@ Comparative feature analysis reveals distinct learning behaviors between model f
 ```text
 ├── dataset/
 │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
-├── Telco_Customer_Churn_Ensemble.ipynb
-├── README.md
-└── requirements.txt
+├── app.py                            # Streamlit web interface code
+├── model.joblib                      # Serialized trained Logistic Regression model
+├── scaler.joblib                     # Serialized StandardScaler instance
+├── feature_columns.joblib            # Feature schema for input alignment
+├── Telco_Customer_Churn_Ensemble.ipynb # End-to-end model analysis notebook
+├── requirements.txt                  # Application dependency specification
+└── README.md                         # Project documentation
